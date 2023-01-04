@@ -1,9 +1,12 @@
 import axios from "axios";
 import React,{ useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Home = () => {
- 
+        // let navigate = useNavigate();
+           // eslint-disable-next-line
+        const {userId}= useParams();
+
         const[users, setUsers] = useState([]);
 
         useEffect(()=>{
@@ -15,7 +18,12 @@ const Home = () => {
             console.log(result.data)
             setUsers(result.data);
         }
-        
+
+        const handleDelete = async (userId) =>{
+           await axios.delete(`http://localhost:8080/api/v1/user/delete/${userId}`)
+          loadUser();
+        }
+
     return ( 
         <div className="container">
             <div className="py-4">
@@ -42,7 +50,8 @@ const Home = () => {
         <Link type="button" className="btn btn-success mx-2"
           to={`/editUser/${user.userId}`}
         >Edit</Link>
-        <button type="button" className="btn btn-danger mx-2">Delete</button>
+        <button type="button" className="btn btn-danger mx-2"
+        onClick={()=>{handleDelete(user.userId)}}>Delete</button>
       </td>
     </tr>
     ))}

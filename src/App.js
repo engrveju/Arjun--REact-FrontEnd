@@ -1,64 +1,24 @@
-
-import { useState } from 'react';
+import Navbar from './layout/Navbar';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import Employee from './components/Employee';
+import Home from './pages/Home';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import AddUser from './Users/AddUser';
+import EditUser from './Users/EditUser';
 
-function App() {
-  
-    const [role, setRole] = useState("Engineer");
-    const [employees, setEmployee] = useState([
-      {name:"Chike",role:"Rider",id: 1},
-      {name:"Chike",role:"Rider",id: 2},
-      {name:"Chike",role:"Rider",id: 3},
-      {name:"Chike",role:"Rider",id: 4},
-      {name:"Chike",role:"Rider",id: 5},
-      {name:"Chike",role:"Rider",id: 6}]
-      )
-      function updateEmployee(id, newName, newRole){
-        const updatedEmployee = employees.map((employee)=>{
-        if(id ===employee.id) {
-          return {...employee, name: newName, role: newRole};
-         }
-         return employee;
-        })
-        setEmployee(updatedEmployee)
-      }
-console.log(role+setEmployee)
-console.log(employees)
-
-      const showEmployees =true;
-  return (
-      <div className ="App bg-red-300">
-        {showEmployees ? (
-          <>
-            <input
-              type="text"
-              onChange={(e)=>{
-                setRole(e.target.value);
-              }}
-            />
-      
-              <div className="flex flex-wrap justify-center">
-              {employees.map((employ)=>{
-                 return (
-                  <Employee 
-                  key={employ.id}
-                  id ={employ.id}
-                  name={employ.name} 
-                  role={employ.role}
-                  updateEmployee ={updateEmployee}
-                  />
-
-                 )
-                
-              })}
-              </div>
-    </>
-  ):(
-      <p>No Employees available</p>
-  )}
-      </div>
-);
+const App = () => {
+  return (  
+    <div className="App">
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route exact path="/" element ={<Home />}/>
+          <Route exact path="/addUser" element ={<AddUser />}/>
+          <Route exact path="/editUser/:userId" element ={<EditUser />}/>
+        </Routes>
+      </Router>
+    </div>
+  );
 }
-
+ 
 export default App;
